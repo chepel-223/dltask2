@@ -1,0 +1,145 @@
+import java.math.BigInteger;
+
+public class Main
+{
+
+    public static void main(String[] args)
+    {
+
+
+
+        MyBigNumber n1 = new MyBigNumber();
+        MyBigNumber n2 = new MyBigNumber();
+        n1.setHex("51bf608414ad5726a3c1bec098f77b1b54ffb2787f8d528a74c1d7fde6470ea4");
+        n2.setHex("403db8ad88a3932a0b7e8189aed9eeffb8121dfac05c3512fdb396dd73f6331c");
+
+
+
+        System.out.println("Число 1:    "+n1.getHex());
+        System.out.println("Число 2:    "+n2.getHex());
+        System.out.println("///// inv 1; 1xor2; 1and2; 1or2; ShRight 1; ShRight 1");
+        n1.inv();
+        n1.xor(n2);
+        n1.and(n2);
+        n1.or(n2);
+        n1.shR(5);
+        n1.shL(5);
+
+        System.out.println("/////");
+        MyBigNumber n3 = new MyBigNumber();
+        MyBigNumber n4 = new MyBigNumber();
+        MyBigNumber n5 = new MyBigNumber();
+        MyBigNumber n6 = new MyBigNumber();
+        n3.setHex("36f028580bb02cc8272a9a020f4200e346e276ae664e45ee80745574e2f5ab80");
+        n4.setHex("70983d692f648185febe6d6fa607630ae68649f7e6fc45b94680096c06e4fadb");
+        n5.setHex("33ced2c76b26cae94e162c4c0d2c0ff7c13094b0185a3c122e732d5ba77efebc");
+        n6.setHex("22e962951cb6cd2ce279ab0e2095825c141d48ef3ca9dabf253e38760b57fe03");
+        System.out.println("Число 3:\t\t"+n3.getHex());
+        System.out.println("Число 4:\t\t"+n4.getHex());
+        System.out.println("Число 6:\t\t"+n3.getHex());
+        System.out.println("Число 6:\t\t"+n4.getHex());
+        System.out.println("///// 3add4; 5sub6; 3mod4; 5mod6");
+        n3.add(n4);
+        n5.sub(n6);
+        n3.mod(n4);
+        n5.mod(n6);
+    }
+
+}
+
+
+
+
+class MyBigNumber
+{
+
+    String hex;
+
+
+    BigInteger num;
+    // byte [] bArr;
+    //   String bStr;
+    void setHex (String nHex)
+    {
+        hex = nHex;
+        num = new BigInteger(hex,16);
+        //       bArr = num.toByteArray();
+        //       System.out.println(bArr[1]);
+        //       System.out.println(bArr.length);
+
+        //System.out.println(num);
+    }
+    String getHex ()
+    {
+        return hex;
+    }
+
+    BigInteger getNum()
+    {
+        return num;
+    }
+
+    void xor (MyBigNumber a)
+    {
+        BigInteger temp = num.xor(a.getNum());
+        System.out.println("XOR:\t\t\t"+temp.toString(16));
+    }
+
+    void inv ()
+    {
+        BigInteger temp = num.not();
+        System.out.println("INV:\t\t\t"+temp.toString(16));
+    }
+
+    void and (MyBigNumber a)
+    {
+        BigInteger temp = num.and(a.getNum());
+        System.out.println("AND:\t\t\t"+temp.toString(16));
+    }
+
+    void or (MyBigNumber a)
+    {
+        BigInteger temp = num.or(a.getNum());
+        System.out.println("OR:\t\t\t\t"+temp.toString(16));
+    }
+
+    void shR (int n)
+    {
+        BigInteger temp = num.shiftRight(n);
+        System.out.println("Shift right:\t"+temp.toString(16));
+    }
+
+    void shL (int n)
+    {
+        BigInteger temp = num.shiftLeft(n);
+        System.out.println("Shift left :\t"+temp.toString(16));
+    }
+
+    void add (MyBigNumber a)
+    {
+        BigInteger temp = num.add(a.getNum());
+        System.out.println("ADD :\t\t\t"+temp.toString(16));
+    }
+
+    void sub (MyBigNumber a)
+    {
+        BigInteger temp = num.subtract(a.getNum());
+        System.out.println("SUB :\t\t\t"+temp.toString(16));
+    }
+
+    void mod (MyBigNumber a)
+    {
+        BigInteger temp = num;
+        //если число больше модуля или равен отнимаем модуль пока не получим число меньше модуля
+        if(num.compareTo(a.getNum())!=-1)
+        {
+            while (temp.compareTo(a.getNum())!=-1)
+            {
+                temp = temp.subtract(a.getNum());
+            }
+            System.out.println("MOD :\t\t\t"+temp.toString(16));
+        }
+        else System.out.println("MOD :\t\t\t"+temp.toString(16));
+    }
+
+}
